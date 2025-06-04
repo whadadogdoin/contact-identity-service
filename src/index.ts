@@ -1,10 +1,12 @@
 import express from "express"
+import { validateIdentityPayload } from "./middlewares/validateIdentityPayload"
+import { identify } from "./routes/identify"
 
-const app = express()
+export const app = express()
 app.use(express.json())
 
 app.get("/", (req, res) => {
   res.send("Hello, World!")
 })
 
-app.listen(3000)
+app.post("/identify",validateIdentityPayload, identify);
