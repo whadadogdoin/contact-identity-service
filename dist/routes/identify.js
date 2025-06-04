@@ -72,8 +72,8 @@ function identify(req, res) {
             }
             const existingemail = parsedemail && linkedContacts.some(c => c.email === parsedemail);
             const existingPhoneNumber = parsedphoneNumber && linkedContacts.some(c => c.phoneNumber === parsedphoneNumber);
-            console.log("Existing email:", existingemail);
-            console.log("Existing phone number:", existingPhoneNumber);
+            // console.log("Existing email:", existingemail);
+            // console.log("Existing phone number:", existingPhoneNumber);
             if ((!existingemail && existingemail !== undefined) || (!existingPhoneNumber && existingPhoneNumber !== undefined)) {
                 const newContact = yield client.contact.create({
                     data: {
