@@ -50,7 +50,7 @@ let primaryContactId;
                 primaryContactId: vitest_1.expect.any(Number),
                 emails: ["lorraine@hillvalley.edu"],
                 phoneNumbers: ["123456"],
-                secondaryContactIds: [vitest_1.expect.any(Number)]
+                secondaryContactIds: []
             }
         });
     }));

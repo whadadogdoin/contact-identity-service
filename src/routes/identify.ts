@@ -49,6 +49,16 @@ export async function identify(req: Request, res: Response) {
             if (!currentContact || visited.has(currentContact.id)) continue;
             visited.add(currentContact.id);
 
+            if (currentContact.linkedId && !visited.has(currentContact.linkedId)) {
+                const parent = await client.contact.findUnique({
+                    where: { id: currentContact.linkedId }
+                });
+                if (parent) {
+                    linkedContacts.push(parent);
+                    visitedContacts.push(parent);
+                }
+            }
+
             const relatedContacts = await client.contact.findMany({
                 where: {
                     OR: [
@@ -106,6 +116,14 @@ export async function identify(req: Request, res: Response) {
                 linkedId : primaryContact.id
             }
         })
+
+        await client.contact.update({
+            where: { id: primaryContact.id },
+            data: {
+                linkPrecedence: 'primary',
+                linkedId: null
+            }
+        });
 
         const emails = [...new Set(sortedContacts.map(c => c.email).filter(Boolean))];
         const phoneNumbers = [...new Set(sortedContacts.map(c => c.phoneNumber).filter(Boolean))];
